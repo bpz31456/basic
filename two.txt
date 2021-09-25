@@ -3,3 +3,5 @@ learn_git 2 file
 hello c
 
 hello d:
+
+hello config
