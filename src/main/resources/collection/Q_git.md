@@ -1,0 +1,69 @@
+## git
+
+### 基础命令
+|说明 | 命令                                                                                                   | 说明                                                                                                                                                                                 |
+|----|:-----------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|git 初始化 | git init [project_name]                                                                              | 初始化项目由git管理如果project_name是空，就在当前目录建立与project_name同名目录                                                                                                                              |
+|git配置最小配置user.name | git config --local user.name "bpz31456"                                                              | 最小配置 user.name <br/>--local <br/>--system <br/>--global                                                                                                                            |
+|git最小配置user.email | git config --local user.email "bpz1234@qq.com"                                                       | 最小配置 user.email 作用于在<br/>--local:本地 <br/>--system:系统级别 <br/>--global:全局                                                                                                            |
+|git提交由工作区变更信息到缓存区 | git add *                                                                                            | 提交所有修改信息到缓存区                                                                                                                                                                       |
+|git提交缓冲区信息到版本历史 | git commit -m "some message"                                                                         | 提交缓存区信息到保存区                                                                                                                                                                        |
+|git修改文件名称 | git mv old_name new_name                                                                             | 修改文件名称                                                                                                                                                                             |
+|git回归到某个节点 | git reset --hard headcode                                                                            | code 之后的commit全部删除                                                                                                                                                                 |
+|查看日志 | git log --oneline -n4 --graph                                                                        | 查询最近4条通过图形显示                                                                                                                                                                       |
+|git 建立分支 | git checkout -b branch_name head_code<br/>或git branch branch_name head_code                          | 在head_code  处创建名为branch_name 的分支                                                                                                                                                   |
+|切换分支 | git checkout branch_name                                                                             | 切换分支                                                                                                                                                                               |
+|查询分支list | git branch --list<br/>git branch -av                                                                 | 查询分支列表                                                                                                                                                                             |
+|commit、tree、blob | git cat-file -p head_code<br/>git cat_file -t head_code                                              | commit包含一棵树，树中包含目录就是一个子树，其他文件是一个blob                                                                                                                                               |
+|分离头指针状态 | git checkout code <br/>git checkout 命令是调整 HEAD指针所在位置或HEAD始终会在commit上                                 | git 把HEAD指针跳转到非分支所在的code位置，之后在当前状态做的更新提交是没有通过branch来指向的，这种状态就是分离头指针，如果之后直接跳转到其他分支比如master分支的话，当前code处所做的变更可能会被git当做无用信息屏蔽或删除，如果需要保存，就需要对修改内容后的code做git branch code branch_name创建分支 |
+|查询各个commit之间的不同 | git diff code1 code2                                                                                 | 查询不同版本之间的不同                                                                                                                                                                        |
+|删除分支 | git branch -d branch_name<br/>git branch_D branch_name 强制删除分支                                        | 删除名为branch_name的分支，如果HEAD指向当前待删除分区，git提示不允许删除。只要HEAD指针没有指向master分支，那么master分支也是可以删除的                                                                                               |
+|修改最近一次commit的message | git commit --amend                                                                                   | 通过命令进到最近一次commit的内容处修改message                                                                                                                                                      |
+|修改历史commit的message | git rebase -i code ,任务编排是选择reword                                                                    | 通过交互(-i / --interactive)的方式做变基操作，之后进入任务编排（包括修改commit message、delete commit 、pick 等）界面，保存退出之后再进入操作界面,code 是需要修改message的父节点                                                          |
+|整理多个连续commit为一个commit | git rebase -i code，任务编排是选择squash                                                                     | 通过交互(-i / --interactive)的方式做变基操作，之后进入任务编排（包括修改commit message、delete commit 、pick 等）界面，保存退出之后再进入操作界面,code 是需要修改message的父节点                                                          |
+|整理多个非连续commit为一个commit | git rebase -i code，任务编排是选择squash，把需要整理的条目按顺序排在一起                                                     | 通过交互(-i / --interactive)的方式做变基操作，之后进入任务编排（包括修改commit message、delete commit 、pick 等）界面，保存退出之后再进入操作界面,code 是需要修改message的父节点                                                          |
+|HEAD 和暂存区比较差异 | git diff --cached                                                                                    ||
+|工作区和暂存区比较差异 | git diff [filename]                                                                                  | 工作区和暂存区之间某个或所有文件的差异                                                                                                                                                                |
+|暂存区恢复到HEAD，消除暂存区变更 | git reset HEAD/git restore --staged files                                                            | 暂存区恢复到HEAD，消除暂存区变更，暂存区内容回滚到已变更工作区                                                                                                                                                  |
+|工作区恢复到暂存区的状态，消除工作区变更 | git restore files                                                                                    | 清除工作区修改信息                                                                                                                                                                          |
+|删除已经提交的commit | git reset --hard headcode                                                                            | 删除已经提交的commit                                                                                                                                                                      |
+|多个 commit （或branch）之间的文件差异 | git diff branch1 branch2 -- file1                                                                    | 在branch1和branch2之间比较file1的内容差异                                                                                                                                                     |
+|删除文件 | git rm filename1 filename2                                                                           | 删除filename1 filename2                                                                                                                                                              |
+|保存当前branch的缓冲区到特殊临时区域 | git stash<br/>git stash save "some message"//添加带描述的stash到特殊缓冲区                                            | 保存当前branch的缓冲区到特殊临时区域，然后切换到其他branch中做操作                                                                                                                                            |
+|查看临时区域内容 | git stash list                                                                                       ||
+|临时区域恢复到工作区 | git stash pop                                                                                        | apply/git stash pop                                                                                                                                                                |apply stash@{1} |恢复stash暂存区内容到当前branch，可以带id，指定栈帧，pop会删除栈中内容，apply不会删除|
+|清除stash栈 | git stash clear                                                                                      ||
+|指定不需要git管理的文件 | 在根目录中添加.gitignore文件，里面配置需要屏蔽的文件规则                                                                    | 某些通过代码编译生成的文件如class文件是不需要通过git管理的，需要屏蔽                                                                                                                                             |
+|将git仓库备份到本地 | push推到备份点，fetch拉取到备份点                                                                                | http/https需要用户名和密码，ssh需要公钥和私钥                                                                                                                                                      |
+|在远端主机目录中建立远端裸仓库 | git clone --bare url(需要备份项目的地址)                                                                      | 添加bare参数后，仓库将变为不带work tree的罗仓库，只能做push和fetch操作                                                                                                                                     |
+|查看本地remote信息 | git remote -v                                                                                        | 查看本地的远端节点信息                                                                                                                                                                        |
+|在本地仓库建立远端连接地址 | git remote add zhineng url                                                                           ||
+|push本地仓库内容推送到远端裸仓库 | git push --set-upstream zhineng master                                                               | 将master仓库中的变更push到远端仓库,只能commit后的内容才能push，缓存区的内容不会被push，如果不知道branch名称，系统将会把HEAD所在branch，push到远端                                                                                    |
+|fetch在远端裸仓库中获取本地仓库内容 | git fetch                                                                                            ||
+|创建github、进入github仓库（repositories） |                                                                                                      ||
+|检查本地是否存在ssh公钥私钥 | ls -al ~/.ssh                                                                                        | 进入gitbash中，输入ls -al ~/.ssh查看是否存在id_xxx id_xxx.pub等文件                                                                                                                               |
+|创建ssh公钥私钥 | ssh-keygen -t ed25519 -C "your_email@example.com"                                                    | 在gitbash中数据生成公钥私钥的命令，一路回车，程序将生产公钥私钥到~/.ssh目录中                                                                                                                                      |
+|检查公钥私钥是否已经正确配置到github上 | ssh -T git@github.com                                                                                | 在gitbash中输入监测指令                                                                                                                                                                    |
+|本地仓库上传到github |                                                                                                      ||
+|查看本地分支信息 | git branch -v                                                                                        ||
+|查看所有分支信息包括远端 | git branch -av                                                                                       ||
+|删除远端分支 | git push origin -d branch_name                                                                       ||
+|拉取远端分支信息 | git fetch orgin branch_name<br/>git pull origin branch_name                                              ||
+|合并分支到当前分支 | git merge orther_branch_name                                                                         | 合并other_branch_name 到当前分支上                                                                                                                                                         |
+|不同人修改不同文件 |git clone git@github.com:bpz31456/basic.git git_learn_2</br>git config --local user.name "TangYin777"</br>git config --local user.email "822374614@qq.com"</br>git checkout -b feature/commands origin/feature/commands|1.github上创建一个新的分支feature/commands</br>2.本地通过clone创建一个新的仓库</br>3.在本地新的仓库中添加user.name user.email</br>4.通过checkout在本地创建一个与远端分支同名的分支</br>|
+
+### 将本地已有项目提交到远程新建项目
+
+1. 在本地工作目录（已有项目.git目录下）
+2. 创建本地用户和email
+3. 创建ssh私钥和公钥
+4. 在远端配置公钥信息
+5. 创建远端仓库源地址，如果已经有了远端同名仓库地址，可以先删除远端仓库地址后在添加（默认远端仓库地址名称origin）
+    * git remote add origin {远程仓库地址}
+6. 拉取远端仓库信息，并通过rebase的方式修改合并信息
+    * git pull --rebase origin master//这里github中默认的远端分支为master，gitlab的默认分支为main
+7. 如果有冲突，界面会提示，通过rebase的方式修改，并且当前分支为*开头，为头指针分离状态
+    * 通过rebase方式处理完后，通过git rebase --continue继续执行后续
+8. 提交当前分支到远端
+    * git push --set-upstream origin main
+9. 合并完毕
